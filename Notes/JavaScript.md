@@ -1,4 +1,4 @@
-# 变量
+
 
 ## 变量
 
@@ -188,6 +188,80 @@ console.log(student.running === person.running); //false
 
 ## 原型层级
 
-![](D:/Desktop/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Js%20Object%20LayOut.jpg)
+![Js Object LayOut](../../assets/Js%20Object%20LayOut.jpg)!](../typora/assets/Js%20Object%20LayOut.jpg)
 
 ### ![6531713-dcca7e7c3f63594f.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15e1efb250be47d49d5ec81a5ce6f1ed~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?)
+
+### Functon和Object 的关系
+
+1. 在js中，每个JavaScript函数实际上都是一个Function对象
+
+2. 在JavaScript中，几乎所有对象都是**Object**类型的实例，它们都会从**Object.prototype**继承属性和方法
+
+3. 从原型链上讲，Function 继承了 Object
+
+4. 从构造器上讲，Function 构造了 Object
+
+   ```js
+    function Person(name, age) {
+               this.name = name
+               this.age = age
+   
+           }
+   
+           Person.prototype.running = function (info) {
+               console.log(info)
+   
+           }
+           const obj = {}
+           const person = new Person("潘博文", 18)
+           const student = new Person("dog", 17)
+   
+           console.log(obj.__proto__ === Object.prototype)
+           //Object的构造函数
+           console.log(Object.constructor === Function)
+           console.log(Function.prototype.__proto__ === Object.prototype)
+           console.log(Function.constructor === Function)
+           console.log(Person.__proto__.constructor.__proto__ === Function.prototype)
+           console.log(student.__proto__.__proto__.constructor.__proto__ === Function.prototype)
+   
+           console.log(Function.constructor.__proto__ === Function.prototype)
+           console.log(Object.constructor === Function.constructor)
+           console.log(Object instanceof Function)
+           console.log(Function instanceof Object)
+           console.log(Function.prototype.__proto__===Object.prototype)
+   
+   ```
+
+- ###### 原型查找机制,首先在实例上查找,有则返回,没有则往上查找,这时候查找到了原型上了,如果能找到有该属性或方法,则返回,如果
+
+  ###### 仍然没找打,就在**Object**的原型上查找,找到了则返回,没有就返回**undefined**或者报错。
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.sayName = function () {
+    console.log("我是在实例身上的");
+  };
+  this.memory = "我是属于实例的";
+}
+// 在这里,把方法running定义在了Person的prototype属性上了
+Person.prototype.running = function () {
+  console.log("我是原型上的方法");
+};
+
+Object.prototype.牛逼 = "这是真的";
+
+Person.prototype.memory = "我是属于原型的";
+
+const person = new Person("moment", 18);
+
+console.log(person.name); // 来自实例
+console.log(person.memory); // 来自实例
+person.sayName(); // 来自实例
+person.running(); // 来自原型
+console.log(person.牛逼); // 这是真的
+console.log(person.六六六); // undefined
+```
+

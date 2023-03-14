@@ -1,6 +1,6 @@
 # Vue生命周期
 
-![](D:/Desktop/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png)
+![生命周期](../../assets/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png)
 
 # Vue组件
 
@@ -355,7 +355,7 @@ export default {
 >
 > methods中，要么用箭头函数，否则this指向会出问题！
 
-## 全局事件总线
+## 全局事件总线✔
 
 任意组件间的数据通信
 
@@ -363,3 +363,105 @@ export default {
 >
 > 1. 所有的组件对象都必须能看见他
 > 1.  这个对象必须能够使用`$on`、`$emit`和`$off`方法去绑定、触发和解绑事件
+
+**全局事件总线**并不是插件，配置文件等等，事件总线是程序员在做Vue开发中总结积累的一套方法，是一套规则，只要满足
+
+这套规则，就可以实现组件间的通信。
+
+![全局事件总线](../../assets/%E5%85%A8%E5%B1%80%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF.png)
+
+### 满足所有组件对象都可以看见他
+
+```js
+ beforeCreate() {
+        //安装全局事件总线
+        Vue.prototype.$bus = this
+    }
+```
+
+### 可以调用$on、$emit和$off
+
+## 消息订阅与发布
+
+1. 消息订阅与发布是一种组件间通信的方式，适用于任意组件间通信
+2. 使用步骤：
+   1. 安装pubsub：`npm i pubsub-js`
+   2. 引入：`import pubsub from 'pubsub-js'`
+   3. 接收数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身
+
+## 过渡与动画
+
+1. 作用：在插入、更新或移除 DOM元素时，在合适的时候给元素添加样式类名
+
+2. 图示：
+
+3. 写法：
+
+   1. 准备好样式：
+
+      1. 元素进入的样式：
+
+         ​		v-enter：进入的起点
+
+         ​		v-enter-active：进入过程中
+
+         ​		v-enter-to：进入的终点
+
+      2. 元素离开的样式：
+
+         ​		v-leave：离开的起点
+
+         ​		v-leave-active：离开过程中
+
+         ​		v-leave-to：离开的终点
+
+   2. 使用<transition>包裹要过度的元素，并配置name属性：
+
+      ```js
+      <transition name="hello">
+      	<h1 v-show="isShow">你好啊！</h1>
+      </transition>
+      ```
+
+   3. 备注：若有多个元素需要过度，则需要使用：`<transition-group>`，且每个元素都要指定`key`值
+
+# Vue中的Ajax（异步网络请求）
+
+**让页面无刷新的请求数据**
+
+实现ajax的方式有多种，如jQuery封装的ajax，原生的XMLHttpRequest，以及axios。但各种方式都有利弊：
+
+1. 原生的XMLHttpRequest的配置和调用方式都很繁琐，实现异步请求十分麻烦
+2. jQuery的ajax相对于原生的ajax是非常好用的，但是没有必要因为要用ajax异步网络请求而引用jQuery框架
+   
+
+## Axios(Ajax I/O system)
+
+对原生XMLHttpRequest的封装，可用于浏览器和nodejs的HTTP客户端，只不过它是基于Promise的，符合最新的ES规范。
+
+- 在浏览器中创建XMLHttpRequest请求
+- 在node.js中发送http请求
+- 支持Promise API
+- 拦截请求和响应
+- 转换请求和响应数据
+- 取消要求
+- 自动转换JSON数据
+- 客户端支持防止CSRF/XSRF(跨域请求伪造)
+
+# Vuex
+
+## vuex概念
+
+###### 专门在 Vue 中实现集中式状态（数据）管理的一个 Vue 插件，对 vue 应用中多个组件的共享状态进行集中式的管理（读/写），也是一
+
+###### 种组件间通信的方式，且适用于任意组件间通信
+
+## vuex使用情景
+
+1. 多个组件依赖于同一状态
+2. 来自不同组件的行为需要变更同一状态
+
+## vuex工作原理图
+
+![vuex原理图](../../assets/vuex%E5%8E%9F%E7%90%86%E5%9B%BE.png)
+
