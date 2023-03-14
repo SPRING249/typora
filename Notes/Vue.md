@@ -464,4 +464,3 @@ export default {
 ## vuex工作原理图
 
 ![vuex原理图](../../assets/vuex%E5%8E%9F%E7%90%86%E5%9B%BE.png)
-
